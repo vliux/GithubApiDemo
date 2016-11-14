@@ -12,15 +12,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vliux.githubdemo.MainActivity">
 
-    <EditText
-        android:id="@+id/et_decode_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Query"
+        android:text="Query rules on Github"
         android:onClick="onClick"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_readme"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_rules"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:textSize="12dp"/>
 
 </LinearLayout>

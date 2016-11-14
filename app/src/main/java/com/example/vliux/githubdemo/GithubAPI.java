@@ -2,7 +2,6 @@ package com.example.vliux.githubdemo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.util.Base64;
@@ -31,10 +30,18 @@ public class GithubAPI {
 
     @WorkerThread
     @Nullable
-    public Bean queryContent(final String user, final String repo) throws IOException {
+    public Bean queryRulesContent(final String user, final String repo) throws IOException {
+        return makeQuery(getRulesUrl(user, repo), user, repo);
+    }
+
+    public Bean queryReadmeContent(final String user, final String repo) throws IOException {
+        return makeQuery(getReadmeUrl(user, repo), user, repo);
+    }
+
+    private Bean makeQuery(final String queryUrl, final String user, final String repo) throws IOException {
         final String etag = mLocalCache.getEtag(user, repo);
-        URL url = new URL(getContentUrl(user, repo));
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        final URL url = new URL(queryUrl);
+        final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         if(null != etag){
             urlConnection.setRequestProperty("If-None-Match", etag);
         }
@@ -92,12 +99,17 @@ public class GithubAPI {
             bean.content = decodedContent;
         }else{
             Log.e(TAG, "content in response is empty or null");
+            throw new IOException("content in response is empty or null");
         }
-        return null;
+        return bean;
     }
 
-    private static String getContentUrl(final String user, final String repo){
+    private static String getRulesUrl(final String user, final String repo){
         return String.format("https://api.github.com/repos/%s/%s/contents/%s.xml", user, repo, repo);
+    }
+
+    private static String getReadmeUrl(final String user, final String repo){
+        return String.format("https://api.github.com/repos/%s/%s/readme", user, repo);
     }
 
     public static class Bean {
