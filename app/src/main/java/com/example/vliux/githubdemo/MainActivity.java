@@ -25,12 +25,14 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private EditText mEtBase64;
+    private GithubAPI mGithubApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mEtBase64 = (EditText)findViewById(R.id.et_decode_mode);
+        mGithubApi = new GithubAPI(this);
     }
 
     public void onClick(final View view){
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    makeQuery(base64Decode);
+                    mGithubApi.queryContent("greenify", "rx-mipush");
                 } catch (IOException e) {
                     Log.e(TAG, "error!", e);
                 }
